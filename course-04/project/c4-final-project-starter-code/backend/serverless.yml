@@ -1,4 +1,5 @@
 # TODO: Change the name of the org 
+# TODO: Change the name of the org 
 org: thomas1y
 app: serverless-todo-app
 service: serverless-todo-app
@@ -30,7 +31,7 @@ provider:
     PROJECT_NAME: todos
     TODOS_TABLE: todos-${self:provider.stage}
     S3_BUCKET_NAME: serverless-c4-todo-tommy12-images-${self:provider.stage}
-  
+    SIGNED_URL_EXPIRATION: 300
 
 
 custom:
@@ -209,6 +210,10 @@ functions:
           - s3:*
           - xray:PutTraceSegments 
         Resource: arn:aws:s3:::${self:provider.environment.S3_BUCKET_NAME}/*
+      - Effect: Allow
+        Action:
+            - dynamodb:UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
 
 
 resources:
