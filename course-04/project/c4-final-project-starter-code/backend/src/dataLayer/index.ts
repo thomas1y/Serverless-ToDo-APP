@@ -7,10 +7,13 @@ const uuidv4 = require('uuid/v4');
 import 'aws-xray-sdk';
 import { deleteBucket, getUploadUrl } from "../fileManagement";
 
+const AWS_XRAY =require("aws-xray-sdk")
+const XAWS = AWS_XRAY.captureAWS(AWS)
+
 
 export class ToDoAccess {
     constructor(
-        private readonly DB: DocumentClient = new AWS.DynamoDB.DocumentClient(),
+        private readonly DB: DocumentClient = new XAWS.DynamoDB.DocumentClient(),
         private readonly todoTableName = process.env.TODOS_TABLE,
         private readonly s3BucketName = process.env.S3_BUCKET_NAME) {
     }
